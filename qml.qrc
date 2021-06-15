@@ -2,5 +2,11 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>TitleBar.qml</file>
+        <file>Style.qml</file>
+        <file>PrimaryButton.qml</file>
+        <file>TasksListDelegate.qml</file>
+    </qresource>
+    <qresource prefix="/Images">
+        <file>Icons/Remove.svg</file>
     </qresource>
 </RCC>

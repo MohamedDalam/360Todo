@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
 import ModelLib 1.0
 
 Window {
@@ -9,48 +8,76 @@ Window {
     width: 400
     height: 600
     visible: true
-    color: "black"
+    color: "gray"
 
     ModelTodo {
         id: modelTodo
     }
 
-    ColumnLayout{
+    Style{
+        id:style
+    }
+
+    ColumnLayout {
+        id: listContainer
         anchors.centerIn: parent
-        width: 400
         height: 600
+        width: 400
+
         TitleBar{
             actualHeight: 60
             Layout.fillWidth: true
         }
+
         Rectangle{
             Layout.fillHeight: true
             Layout.fillWidth: true
             color: "white"
 
             ListView{
+                id: tasksList
                 model: modelTodo
-                height: 200
+                implicitHeight: 100
                 width: parent.width
+                height: listContainer.height /*{modelTodo.count * 40; console.log("Count " + modelTodo.count)}*/
                 clip: true
-                delegate: Text {
-                    id: txt
+                delegate: TasksListDelegate{
+                    width: tasksList.width
                     text: model.description
+                    onActiveStateChanged: {
+                        modelTodo.changeActiveState(model.index)
+                    }
+                    onRemoveClicked: modelTodo.remove(model.index)
 
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: modelTodo.remove(model.index)
+                }
+                add: Transition {
+                    NumberAnimation {
+                        properties: "x"; from: tasksList.width; to: 0
+                        duration: 250; easing.type: Easing.InCirc
+                    }
+                }
+                remove: Transition {
+                    NumberAnimation {
+                        properties: "x"; from: 0; to: tasksList.width;
+                        duration: 250; easing.type: Easing.InCirc
+                    }
+                }
+                displaced: Transition {
+                    SequentialAnimation {
+                        PauseAnimation { duration: 250 }
+                        NumberAnimation { properties: "y"; duration: 75
+                        }
                     }
                 }
             }
-
         }
-        Button{
-            focus: true
-            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+
+        PrimaryButton{
             id: btnNewTask
-            text: "Add"
-            onClicked: modelTodo.append(false,"Hello")
+            text: "+ Add Task"
+            focus: true
+            Layout.alignment: Qt.AlignCenter
+            onClicked: modelTodo.append(true,"Hello")
         }
     }
 }
