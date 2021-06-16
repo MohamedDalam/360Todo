@@ -7,6 +7,7 @@ Item {
     implicitHeight: 40
 
     property alias text: description.text
+    property bool isActive
     signal activeStateChanged()
     signal itemHover()
     signal removeClicked()
@@ -19,19 +20,15 @@ Item {
             width: description.width + 30
             Layout.preferredWidth: descriptionContainer.width
             Layout.preferredHeight: 40
-            state: "active"
+            state: isActive ? "active" : "deActive"
 
-            Rectangle{
-                id: checkedIndicator
+            CheckedIndicator{
+                id:checkedIndicator
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 width: 14
-                height: checkedIndicator.width
-                radius:  checkedIndicator.width / 2
-                color: "transparent"
-                border.width: 1
-                border.color: style.primaryColorMain
+                height: 14
             }
 
             Text {
@@ -76,7 +73,7 @@ Item {
             Image {
                 anchors.fill: parent
                 source: "qrc:/Images/Icons/Remove.svg"
-                fillMode: Image.Stretch
+                fillMode: Image.PreserveAspectFit
             }
         }
     }

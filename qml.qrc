@@ -5,6 +5,9 @@
         <file>Style.qml</file>
         <file>PrimaryButton.qml</file>
         <file>TasksListDelegate.qml</file>
+        <file>InputRecord.qml</file>
+        <file>CheckedIndicator.qml</file>
+        <file>InputContainer.qml</file>
     </qresource>
     <qresource prefix="/Images">
         <file>Icons/Remove.svg</file>

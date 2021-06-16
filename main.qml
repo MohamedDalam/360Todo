@@ -8,7 +8,7 @@ Window {
     width: 400
     height: 600
     visible: true
-    color: "gray"
+    color: "lightGray"
 
     ModelTodo {
         id: modelTodo
@@ -32,7 +32,9 @@ Window {
         Rectangle{
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Layout.bottomMargin: 40
             color: "white"
+            radius: 5
 
             ListView{
                 id: tasksList
@@ -44,6 +46,7 @@ Window {
                 delegate: TasksListDelegate{
                     width: tasksList.width
                     text: model.description
+                    isActive: model.active
                     onActiveStateChanged: {
                         modelTodo.changeActiveState(model.index)
                     }
@@ -70,14 +73,12 @@ Window {
                     }
                 }
             }
-        }
-
-        PrimaryButton{
-            id: btnNewTask
-            text: "+ Add Task"
-            focus: true
-            Layout.alignment: Qt.AlignCenter
-            onClicked: modelTodo.append(true,"Hello")
+            InputContainer{
+                width: parent.width
+                anchors.top: parent.bottom
+                anchors.topMargin: - 20
+                model: modelTodo
+            }
         }
     }
 }
