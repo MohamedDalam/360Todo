@@ -8,6 +8,7 @@ Item {
     property bool isActive: true
     property alias textFiledWidth: textFieldBack.width
 
+    signal enterPressed()
     function clearText(){
         textField.clear()
     }
@@ -38,7 +39,9 @@ Item {
                 border.color: style.primaryColorLight
                 radius: 5
             }
+            width: textFiledWidth
             placeholderText: "What is your next task?"
+            onAccepted: _root.enterPressed()
         }
     }
 

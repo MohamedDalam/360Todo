@@ -10,8 +10,17 @@ Item {
 
     state: "view"
 
+    function acceptRecord() {
+        if(_root.state === "add") {
+            model.append(inputRecord.isActive,inputRecord.text);
+            inputRecord.clearText();
+        }
+        _root.state = _root.state === "view" ? "add" : "view";
+    }
+
     InputRecord{
         id: inputRecord
+        onEnterPressed: _root.acceptRecord()
     }
 
     PrimaryButton{
@@ -20,15 +29,8 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         text: "+ Add Task"
         focus: true
-        onClicked: {
-            if(_root.state == "add"){
-                model.append(inputRecord.isActive,inputRecord.text);
-                inputRecord.clearText();
-            }
-            _root.state = _root.state == "view" ? "add" : "view";
-        }
+        onClicked: _root.acceptRecord()
     }
-
     states: [
         State {
             name: "view"
@@ -61,3 +63,4 @@ Item {
         }
     ]
 }
+
