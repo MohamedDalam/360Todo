@@ -44,7 +44,6 @@ signals:
 private:
     QVector<Record> modelData;
     QHash<int, QByteArray> modelRoleNames;
-    int m_count;
 };
 
 #endif // MODELTODO_H

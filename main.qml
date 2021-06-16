@@ -15,7 +15,7 @@ Window {
     }
 
     Style{
-        id:style
+        id: style
     }
 
     ColumnLayout {
@@ -30,11 +30,13 @@ Window {
         }
 
         Rectangle{
+            id: listBackground
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.bottomMargin: 40
             color: "white"
             radius: 5
+            state: "EmptyList"
 
             ListView{
                 id: tasksList
@@ -73,6 +75,17 @@ Window {
                     }
                 }
             }
+
+            Text {
+                id: emptyHint
+                anchors.centerIn: parent
+                text: "Add your Tasks..."
+                color: "lightGray"
+                font.pixelSize: 24
+                font.bold: true
+                visible: modelTodo.count === 0 ? true : false
+            }
+
             InputContainer{
                 width: parent.width
                 anchors.top: parent.bottom

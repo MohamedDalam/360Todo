@@ -5,10 +5,6 @@ ModelTodo::ModelTodo(QObject *parent):
 {
     modelRoleNames[Active] = "active";
     modelRoleNames[Description] = "description";
-
-    modelData.push_back(Record(false,"Task1"));
-    modelData.push_back(Record(true,"Task2"));
-    modelData.push_back(Record(false,"Task3"));
 }
 
 ModelTodo::~ModelTodo()
@@ -72,5 +68,5 @@ QHash<int, QByteArray> ModelTodo::roleNames() const
 
 int ModelTodo::count() const
 {
-    return m_count;
+    return rowCount(QModelIndex());
 }
