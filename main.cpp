@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 #include "modeltodo.h"
+#include "date.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,9 +12,12 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    Date date;
 
     QQmlApplicationEngine engine;
     qmlRegisterType<ModelTodo>("ModelLib",1,0,"ModelTodo");
+    engine.rootContext()->setContextProperty("_date",&date);
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

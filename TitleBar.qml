@@ -31,7 +31,7 @@ Item{
 
         Text {
             id: date
-            text: "15-06-2021"
+            text: _date.currentDate
             color: "white"
             font.pixelSize: 16
             font.bold: false

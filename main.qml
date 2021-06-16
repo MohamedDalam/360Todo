@@ -41,7 +41,7 @@ Window {
                 model: modelTodo
                 implicitHeight: 100
                 width: parent.width
-                height: listContainer.height /*{modelTodo.count * 40; console.log("Count " + modelTodo.count)}*/
+                height: parent.height /*{modelTodo.count * 40; console.log("Count " + modelTodo.count)}*/
                 clip: true
                 delegate: TasksListDelegate{
                     width: tasksList.width

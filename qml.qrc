@@ -8,6 +8,7 @@
         <file>InputRecord.qml</file>
         <file>CheckedIndicator.qml</file>
         <file>InputContainer.qml</file>
+        <file>Icons/Remove.svg</file>
     </qresource>
     <qresource prefix="/Images">
         <file>Icons/Remove.svg</file>

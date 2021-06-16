@@ -72,7 +72,7 @@ Item {
 
             Image {
                 anchors.fill: parent
-                source: "qrc:/Images/Icons/Remove.svg"
+                source: "qrc:/Icons/remove.png"
                 fillMode: Image.PreserveAspectFit
             }
         }
