@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include <QVector>
 #include <QHash>
-#include <QDebug>
+#include <QMap>
 
 struct Record{
     Record(){};
@@ -29,8 +29,9 @@ public:
 
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_INVOKABLE void append(const bool active, const QString& description);
-    Q_INVOKABLE void remove(int index);
+    Q_INVOKABLE void remove(int indexKey);
     Q_INVOKABLE void changeActiveState(int index);
+    Q_INVOKABLE void swap(int firstKey, int secendKey);
 
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;

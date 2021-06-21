@@ -1,9 +1,11 @@
 import QtQuick 2.12
+import QtQml 2.0
 import QtQuick.Layouts 1.2
 
 Item{
     id: _root
     property alias actualHeight: _root.height
+    property date currentDate: new Date()
     width: parent.width
 
     Rectangle{
@@ -31,7 +33,7 @@ Item{
 
         Text {
             id: date
-            text: _date.currentDate
+            text: currentDate.toDateString()
             color: "white"
             font.pixelSize: 16
             font.bold: false

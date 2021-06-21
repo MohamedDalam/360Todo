@@ -1,18 +1,26 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Layouts 1.2
 
-Item {
+Rectangle {
     id: _root
     implicitWidth: 200
     implicitHeight: 40
+    color: "transparent"
+    radius: 5
 
+    property int dropItemIndex:0
     property alias text: description.text
+    property alias descState: description.state
+    property ListView listView
+    property Item dragParent
     property bool isActive
+
     signal activeStateChanged()
     signal itemHover()
     signal removeClicked()
 
     RowLayout{
+        id: row
         anchors.fill: parent
         Item{
             id: descriptionContainer
@@ -61,29 +69,33 @@ Item {
             ]
         }
 
-        Rectangle{
+        Rectangle {
             id: removeIcon
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: 20
+            Layout.rightMargin: 10
             width: 16
             height: 16
             color: "transparent"
-            visible: false
-
-            Image {
-                anchors.fill: parent
-                source: "qrc:/Icons/Remove.svg"
-                fillMode: Image.PreserveAspectFit
+            Text {
+                id: name
+                anchors.centerIn: parent
+                color: "red"
+                font.bold: false
+                font.pixelSize: 20
+                text: "x"
             }
         }
+
     }
 
     MouseArea{
         id: area
         anchors.fill: parent
         hoverEnabled: true
-        onEntered: removeIcon.visible = true
-        onExited: removeIcon.visible = false
+        drag.target: _root
+
+        drag.onActiveChanged: _root.Drag.drop();
+
         onClicked: (mouse) => {
                        if(mouse.x >= removeIcon.x && mouse.x < (removeIcon.x + removeIcon.width)){
                            removeClicked()
@@ -93,4 +105,28 @@ Item {
                            descriptionContainer.state = descriptionContainer.state === "active" ?  "deActive" : "active"
                        }}
     }
+
+    Drag.active: area.drag.active
+    Drag.hotSpot.x: width / 2
+    Drag.hotSpot.y: height / 2
+
+    states: [
+        State {
+            when: _root.Drag.active
+            ParentChange {
+                target: _root
+                parent: _root.dragParent
+            }
+            PropertyChanges {
+                target: _root
+                color: Qt.lighter(style.primaryColorLight,1.5)
+            }
+            AnchorChanges {
+                target: _root
+                anchors.horizontalCenter: undefined
+                anchors.verticalCenter: undefined
+            }
+        }
+
+    ]
 }

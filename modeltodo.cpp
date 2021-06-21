@@ -21,13 +21,13 @@ void ModelTodo::append(const bool active, const QString &description)
     emit countChanged();
 }
 
-void ModelTodo::remove(int index)
+void ModelTodo::remove(int indexKey)
 {
-    if (index < 0 || index >= modelData.count())
+    if (indexKey < 0 || indexKey > modelData.count())
         return;
 
-    beginRemoveRows(QModelIndex(), index, index);
-    modelData.removeAt(index);
+    beginRemoveRows(QModelIndex(), indexKey, indexKey);
+    modelData.removeAt(indexKey);
     endRemoveRows();
     emit countChanged();
 }
@@ -36,7 +36,19 @@ void ModelTodo::changeActiveState(int index)
 {
     if (index < 0 || index >= modelData.count())
         return;
-    modelData[index].active = !modelData.at(index).active;
+    modelData[index].active = !modelData[index].active;
+}
+
+void ModelTodo::swap(int firstKey, int secendKey)
+{
+    if(firstKey == secendKey) return;
+    // Check to be safe
+    auto temp = modelData.at(firstKey);
+    modelData[firstKey] = modelData[secendKey];
+    modelData[secendKey] = temp;
+    QModelIndex topLeft = createIndex(0,0);
+    QModelIndex bottomRight = createIndex(modelData.count(),0);
+    emit dataChanged(topLeft,bottomRight);
 }
 
 int ModelTodo::rowCount(const QModelIndex &parent) const
@@ -50,7 +62,7 @@ QVariant ModelTodo::data(const QModelIndex &index, int role) const
     if(row < 0 || row >= modelData.count()) {
         return QVariant();
     }
-    const Record& record = modelData.at(row);
+    const Record& record = modelData[row];
     switch(role) {
     case Active:
         return record.active;

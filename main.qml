@@ -10,6 +10,8 @@ Window {
     visible: true
     color: "lightGray"
 
+    readonly property int taskheight: 40
+
     ModelTodo {
         id: modelTodo
     }
@@ -21,8 +23,8 @@ Window {
     ColumnLayout {
         id: listContainer
         anchors.centerIn: parent
-        height: 600
         width: 400
+        height: 600
 
         TitleBar{
             actualHeight: 60
@@ -33,48 +35,11 @@ Window {
             id: listBackground
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.bottomMargin: 40
             color: "white"
             radius: 5
             state: "EmptyList"
 
-            ListView{
-                id: tasksList
-                model: modelTodo
-                implicitHeight: 100
-                width: parent.width
-                height: parent.height /*{modelTodo.count * 40; console.log("Count " + modelTodo.count)}*/
-                clip: true
-                delegate: TasksListDelegate{
-                    width: tasksList.width
-                    text: model.description
-                    isActive: model.active
-                    onActiveStateChanged: {
-                        modelTodo.changeActiveState(model.index)
-                    }
-                    onRemoveClicked: modelTodo.remove(model.index)
-
-                }
-                add: Transition {
-                    NumberAnimation {
-                        properties: "x"; from: tasksList.width; to: 0
-                        duration: 250; easing.type: Easing.InCirc
-                    }
-                }
-                remove: Transition {
-                    NumberAnimation {
-                        properties: "x"; from: 0; to: tasksList.width;
-                        duration: 250; easing.type: Easing.InCirc
-                    }
-                }
-                displaced: Transition {
-                    SequentialAnimation {
-                        PauseAnimation { duration: 250 }
-                        NumberAnimation { properties: "y"; duration: 75
-                        }
-                    }
-                }
-            }
+            TasksList{}
 
             Text {
                 id: emptyHint
@@ -85,13 +50,11 @@ Window {
                 font.bold: true
                 visible: modelTodo.count === 0 ? true : false
             }
-
-            InputContainer{
-                width: parent.width
-                anchors.top: parent.bottom
-                anchors.topMargin: - 20
-                model: modelTodo
-            }
+        }
+        InputContainer{
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignBottom | Qt.AlignVCenter
+            _model: modelTodo
         }
     }
 }
